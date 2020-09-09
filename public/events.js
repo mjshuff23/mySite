@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let upvoteEle = document.getElementById('upvote');
     let downvoteEle = document.getElementById('downvote');
     let scoreEle = document.getElementsByClassName('score')[0];
-
+    let formEle = document.getElementsByClassName('comment-form')[0];
     fetchImage();
 
     newPicEle.addEventListener("click", () => {
@@ -52,9 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
             });
     });
-
-
-
 
     function fetchImage() {
         fetch("/kitten/image")
