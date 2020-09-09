@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchImage();
 
     formEle.addEventListener("submit", (event) => {
+        let newForm = new FormData(formEle);
+        let newComment = newForm.get("user-comment");
         event.preventDefault();
         const textEle = document.getElementById("user-comment");
         const commentsEle = document.getElementsByClassName("comments")[0];
@@ -16,17 +18,20 @@ document.addEventListener('DOMContentLoaded', () => {
         // textEle.value = "";
         fetch("/kitten/comments", {
             method: "POST",
-
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ "comment": newComment })
         }).then (res => {
             if(!res.ok) {
                 throw res
             }
             return res.json();
         }).then (data => {
+            commentsEle.innerHTML = ``;
             for (let i = 0; i < data.comments.length; i++) {
                 let divEle = document.createElement("div");
                 divEle.setAttribute("id", i);
-                console.log(data);
                 divEle.innerHTML = data.comments[i];
                 //console.log(Array.isArray(data.comments));
                 commentsEle.appendChild(divEle);// += divEle.innerHTML;
