@@ -8,6 +8,33 @@ document.addEventListener('DOMContentLoaded', () => {
     let formEle = document.getElementsByClassName('comment-form')[0];
     fetchImage();
 
+    formEle.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const textEle = document.getElementById("user-comment");
+        const commentsEle = document.getElementsByClassName("comments")[0];
+        // commentsEle.innerHTML += `${textEle.value} </br>`
+        // textEle.value = "";
+        fetch("/kitten/comments", {
+            method: "POST",
+
+        }).then (res => {
+            if(!res.ok) {
+                throw res
+            }
+            return res.json();
+        }).then (data => {
+            for (let i = 0; i < data.comments.length; i++) {
+                let divEle = document.createElement("div");
+                divEle.setAttribute("id", i);
+                console.log(data);
+                divEle.innerHTML = data.comments[i];
+                //console.log(Array.isArray(data.comments));
+                commentsEle.appendChild(divEle);// += divEle.innerHTML;
+
+            }
+        })
+    })
+
     newPicEle.addEventListener("click", () => {
         fetchImage();
         loaderEle.innerHTML = "Loading...";
