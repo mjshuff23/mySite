@@ -6,8 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let downvoteEle = document.getElementById('downvote');
     let scoreEle = document.getElementsByClassName('score')[0];
     let formEle = document.getElementsByClassName('comment-form')[0];
+    let divEle, delEle;
+
     fetchImage();
 
+    // Form submit listener
     formEle.addEventListener("submit", (event) => {
         let newForm = new FormData(formEle);
         let newComment = newForm.get("user-comment");
@@ -30,9 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }).then (data => {
             commentsEle.innerHTML = ``;
             for (let i = 0; i < data.comments.length; i++) {
-                let divEle = document.createElement("div");
-                divEle.setAttribute("id", i);
+                divEle = document.createElement("div");
+                delEle = document.createElement("button");
+                divEle.setAttribute("id", `div-${i}`);
+                delEle.setAttribute("id", `del-${i}`);
+                delEle.innerHTML = `DELETE`;
                 divEle.innerHTML = data.comments[i];
+                divEle.appendChild(delEle);
                 //console.log(Array.isArray(data.comments));
                 commentsEle.appendChild(divEle);// += divEle.innerHTML;
 
@@ -40,11 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     })
 
+
+    // Fetches a new image
     newPicEle.addEventListener("click", () => {
         fetchImage();
         loaderEle.innerHTML = "Loading...";
     });
 
+    // Upvotes kitty
     upvoteEle.addEventListener("click", () => {
         fetch("kitten/upvote", {
             method: "PATCH",
@@ -94,8 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return res.json();
         })
         .then(data => {
-            console.log(data);
-            console.log(data.src);
             catPicEle.setAttribute('src', data.src);
             catPicEle.setAttribute('height', '512px');
             catPicEle.setAttribute('width', '394px');
