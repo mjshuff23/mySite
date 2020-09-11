@@ -9,6 +9,28 @@ app.use(express.static("public"));
 
 const port = 3000;
 
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname + "/public/index.html"));
+});
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 // Controls the probability of an error being thrown. If ERROR_RATE is 0, then
 // an error will never be thrown. If ERROR_RATE is 100, then an error will
 // always be thrown:
@@ -39,10 +61,6 @@ const kitten = {
   score: 0,
   comments: []
 };
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname + "/public/index.html"));
-});
 
 app.get("/kitten/image", (req, res) => {
   try {
@@ -81,5 +99,4 @@ app.delete("/kitten/comments/:id", (req, res) => {
   kitten.comments = updatedComments;
   res.json({ comments: kitten.comments });
 });
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+*/
